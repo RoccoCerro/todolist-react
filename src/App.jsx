@@ -33,19 +33,31 @@ function App() {
       
     {/* Form insert todo */}
     <div className="container py-5 text-center">
-      <h1>Todolist</h1>
-      <form action="">
-        <input type="text" value={newTodo} onChange={handleNewTodoChange}/>
-        <button type='submit' onClick={handleAddTodo}>Add Todo</button>
+      <h1 className='py-3'>Todolist</h1>
+      <form>
+        <div className="row flex-wrap">
+          <div className="col-10">
+            <input type="text" className='form-control' value={newTodo} onChange={handleNewTodoChange}/>
+          </div>
+          <div className="col-2">
+            <button type='submit' className='btn btn-dark' onClick={handleAddTodo}>Add Todo</button>
+          </div>
+        </div>
       </form>
-
-      {/* List todo */}
+    </div>
+    
+    {/* List todo */}
+    <div className="container text-center">
       <ul className='todos list-unstyled'>
         {
           todos.map((todo, index) => (
-            <li className='todo text-primary' key={index}>
-              <span>{todo}</span>
-              <button onClick={() => handleTodoDelete(index)}>Delete</button>
+            <li className='todo row' key={index}>
+              <div className="col-10 fs-5">
+                <div>{todo}</div>
+              </div>
+              <div className="col-2">
+                <button className='btn btn-danger' onClick={() => handleTodoDelete(index)}>Delete</button>
+              </div>
             </li>
           ))
         }
