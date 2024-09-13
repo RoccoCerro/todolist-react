@@ -1,14 +1,30 @@
 import './App.scss'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import HeaderComponent from './components/HeaderComponent'
 
 function App() {
   const [todos, setTodos] = useState([])
   const [newTodo, setNewTodo] = useState('')
+  const [todosLocal, setTodosLocal] = useState([])
+
+  useEffect(() => {
+    
+    let array = [];
+
+    for (let i = 0; i < localStorage.length; i++) {
+      let key = localStorage.key(i);
+      let value = localStorage.getItem(key);
+      array.push( value );
+
+    }
+    setTodosLocal(array)
+    setTodos(array)
+    
+  }, [])
 
   const handleNewTodoChange = (event) => {
     // event.preventDefault()
-    setNewTodo (event.target.value)
+    setNewTodo(event.target.value)
     console.log(newTodo)
   }
 
@@ -18,6 +34,9 @@ function App() {
     setTodos([...todos, newTodo])
     setNewTodo('')
     console.log(todos)
+
+    localStorage.setItem(localStorage.length+1, JSON.stringify(newTodo))
+    
   }
 
   const handleTodoDelete = (index) => {
