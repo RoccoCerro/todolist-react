@@ -1,4 +1,4 @@
-import './App.scss'
+import './scss/App.scss'
 import { useState, useEffect } from 'react'
 import HeaderComponent from './components/HeaderComponent'
 
@@ -10,12 +10,13 @@ function App() {
     // Return the todos list if present
     return savedTodos ? JSON.parse(savedTodos) : [];
   })
+
   const [newTodo, setNewTodo] = useState('')
 
   useEffect(() => {
     // I update the todos list in localStorage every time the todos array changes
-    localStorage.setItem('todos' , JSON.stringify(todos))
-    
+    localStorage.setItem('todos' , JSON.stringify(todos))    
+
   }, [todos])
 
   // Retrieve the input value
@@ -30,9 +31,13 @@ function App() {
     if (newTodo === '') return
 
     // I format the new todo with the first letter in capital letters
-    const stringFormatted = newTodo.charAt(0).toUpperCase() + newTodo.slice(1)
+    const stringFormatted = newTodo.trim().charAt(0).toUpperCase() + newTodo.trim().slice(1)
+    const arrayObj = {
+      text: stringFormatted.trim(),
+      isBarred: false
+    }
 
-    setTodos([...todos, stringFormatted])
+    setTodos([...todos, arrayObj])
     setNewTodo('') 
   }
 
@@ -40,6 +45,23 @@ function App() {
   const handleTodoDelete = (index) => {
     const newTodos = [...todos]
     newTodos.splice(index,1)
+    setTodos(newTodos)
+  }
+
+  // Manage a completed todo
+  const todoCompleted = (index) => {
+
+    const newTodos = todos.map((el, i) => {
+      if(i === index){
+        return el = {
+          text: el.text,
+          isBarred: !el.isBarred
+        }
+      }else{
+        return el
+      }
+    })
+
     setTodos(newTodos)
   }
 
@@ -70,7 +92,7 @@ function App() {
           todos.map((todo, index) => (
             <li className='todo row' key={index}>
               <div className="col-10 fs-5">
-                <div>{todo}</div>
+                <div onClick={() => todoCompleted(index)} className={todos[index].isBarred ? 'todo-barred' : ''}>{todo.text}</div>
               </div>
               <div className="col-2">
                 <button className='btn btn-danger' onClick={() => handleTodoDelete(index)}>Delete</button>
