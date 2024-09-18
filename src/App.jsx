@@ -3,24 +3,17 @@ import { useState, useEffect } from 'react'
 import HeaderComponent from './components/HeaderComponent'
 
 function App() {
-  const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState(() => {
+    const savedTodos = localStorage.getItem('todos');
+    return savedTodos ? JSON.parse(savedTodos) : [];
+  })
   const [newTodo, setNewTodo] = useState('')
-  const [todosLocal, setTodosLocal] = useState([])
+  // const [todosLocal, setTodosLocal] = useState([])
 
   useEffect(() => {
+    localStorage.setItem('todos' , JSON.stringify(todos))
     
-    let array = [];
-
-    for (let i = 0; i < localStorage.length; i++) {
-      let key = localStorage.key(i);
-      let value = localStorage.getItem(key);
-      array.push( value );
-
-    }
-    setTodosLocal(array)
-    setTodos(array)
-    
-  }, [])
+  }, [todos])
 
   const handleNewTodoChange = (event) => {
     // event.preventDefault()
@@ -33,16 +26,15 @@ function App() {
     if (newTodo === '') return
     setTodos([...todos, newTodo])
     setNewTodo('')
-    console.log(todos)
-
-    localStorage.setItem(localStorage.length+1, JSON.stringify(newTodo))
-    
+    console.log(todos)   
   }
 
   const handleTodoDelete = (index) => {
     const newTodos = [...todos]
     newTodos.splice(index,1)
     setTodos(newTodos)
+
+
   }
 
   return (
