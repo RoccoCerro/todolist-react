@@ -74,11 +74,11 @@ function App() {
     <div className="container py-5 text-center">
       <h1 className='py-3'>Todolist</h1>
       <form>
-        <div className="row flex-wrap">
-          <div className="col-10">
+        <div className="row">
+          <div className="col-12 col-sm-10 p-1">
             <input type="text" className='form-control' value={newTodo} onChange={handleNewTodoChange}/>
           </div>
-          <div className="col-2">
+          <div className="col-12 col-sm-2 p-1">
             <button type='submit' className='btn btn-dark' onClick={handleAddTodo}>Add Todo</button>
           </div>
         </div>
@@ -91,10 +91,10 @@ function App() {
         {
           todos.map((todo, index) => (
             <li className='todo row' key={index}>
-              <div className="col-10 fs-5">
+              <div className="col-12 col-sm-10 p-1">
                 <div onClick={() => todoCompleted(index)} className={todos[index].isBarred ? 'todo-barred' : ''}>{todo.text}</div>
               </div>
-              <div className="col-2">
+              <div className="col-12 col-sm-2 p-1">
                 <button className='btn btn-danger' onClick={() => handleTodoDelete(index)}>Delete</button>
               </div>
             </li>
