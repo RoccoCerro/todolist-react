@@ -5,34 +5,38 @@ import HeaderComponent from './components/HeaderComponent'
 function App() {
   
   const [todos, setTodos] = useState(() => {
-    // Recupero la lista di todos dal localStorage
+    // Retrieve todos list from localStorage
     const savedTodos = localStorage.getItem('todos');
-    // Ritorno la lista di todos se presente
+    // Return the todos list if present
     return savedTodos ? JSON.parse(savedTodos) : [];
   })
   const [newTodo, setNewTodo] = useState('')
 
   useEffect(() => {
-    // Aggiorno la lista di todos nel localStorage ogni volta che l'array di todos cambia
+    // I update the todos list in localStorage every time the todos array changes
     localStorage.setItem('todos' , JSON.stringify(todos))
     
   }, [todos])
 
-  // Recupero il valore dell'input
+  // Retrieve the input value
   const handleNewTodoChange = (event) => {
     // event.preventDefault()
     setNewTodo(event.target.value)
   }
 
-  // Aggiungo un todo
+  // Add todo
   const handleAddTodo = (event) => {
     event.preventDefault()
     if (newTodo === '') return
-    setTodos([...todos, newTodo])
+
+    // I format the new todo with the first letter in capital letters
+    const stringFormatted = newTodo.charAt(0).toUpperCase() + newTodo.slice(1)
+
+    setTodos([...todos, stringFormatted])
     setNewTodo('') 
   }
 
-  // Elimino un todo
+  // Delete todo
   const handleTodoDelete = (index) => {
     const newTodos = [...todos]
     newTodos.splice(index,1)
